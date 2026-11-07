@@ -1,0 +1,54 @@
+name: Recupera le fotografie originali delle aule
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/importa-fotografie.yml'
+permissions:
+  contents: write
+jobs:
+  importa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scarica le immagini dal documento sorgente
+        env:
+          IMG_0: "https://docs.google.com/docs-images-rt/AIpPl2CJ29Ep0NGiIWFJJSrxU9I7ghT5tktSlnOse5-mnE0VjinsdJOYsh-8289iZWpRP9GUnd000SoySGq-quNj_VciwbX83CLiCqDTzyqXX9wPT0SDr0WYPLGTtmtrTew8ZUyXtvli-HoiVKnZ5an_6G0zi-qzEr6ykhnU7hmxafqIUUDT=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+          IMG_1: "https://docs.google.com/docs-images-rt/AIpPl2Dkd9njMCsBf0i-AhqLuCgXfQlOB-ngrLxvKAZldvkq2YyYSVJHcyb8iAB_I7Wtv9AJVoS2OBU3vwwJpzIJfF5zZmcsH38osgaHvpYTz0UUc3G209a8eF_iXMtl-6OOBVkmkvkUasVYPLqA8Ydt-IEbXPuJrUeZuKpTJ4bgLS0hDVGA=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+          IMG_2: "https://docs.google.com/docs-images-rt/AIpPl2BwLMS3-fe4YO7YO7HHDS_acCJMiEpq86Mi9-5WtLW5t7zHLpxI0y9zNc-vw2qCiIOP7IdMdbgQrJBK_sNPEnYsZ4jBWwuxl-Vh46l0O4Kp_dO7lDX2c22QDnAj_nVgnvlah7cXQS3mE02e0UlD2Ct45spYN8aUiyzyCW_Fk5drdxrb=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+          IMG_3: "https://docs.google.com/docs-images-rt/AIpPl2BZBUqBwAcl2UTvsJBP0rBoGsAJJS_pV60KfkBLWRPYXsoiKD6mnXyS6ALEZUPiz2Jaz00JWGRHqn6fEJTpeUUjtxpgWh6hbWWc9Zh1PYxg9_aTxx7XiH05ziC8ShWrVfvNuJJrjL4-TBbE_e6QXrtTAMnPQX0D7fd-LhXVlsd_JOaW6Yc=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+          IMG_4: "https://docs.google.com/docs-images-rt/AIpPl2DwrpshEIAZ0clKKdOzqOR1tFMTd1S86HfadS_zES1qVlKthOixE-G5ILHWFurCkyJJiX_8ZmuZOW-_K_9kScWdpq9lKheRczFsZkaiZsrZswSkAuEKTn0EXJg_qimB_yx1lukDtvJe5DFfWh2ow3HSf9QZSRIF7cu5I86-6MHA56uY=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+          IMG_5: "https://docs.google.com/docs-images-rt/AIpPl2CmYNMrVtqxeYPKd3phtZJEwjX0ufDj_s8UZ6tdO95dQZYSJYgNNXYl5jacxZpuODblLxcxveHmJc0BxbqDnz6dkPr_yS-AsnS8bTF57R6PpOO3zLqfN91K6SsvyAZfPJseAXhmrBR567viPRiPrNAz5CcXOm_PyE9Zc899BvVLyegXSaE=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+          IMG_6: "https://docs.google.com/docs-images-rt/AIpPl2B_OM6w4WKQmCk01qM7Ud3XEMs2Vccx2XJNQCT1WOX4uJ-PII9t9bw-xpMMln49UKV_MFRXmBPULKYQ6HarD4a4dP1TukTGWivLMT7ydGF5j5FYlK0tTNNdeDxH517HnhbdrQ8kA0CtQeHCjprFL7I_x56aU4HXT35fYGDcq4u7HfB5Rao=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+        run: |
+          mkdir -p images
+          python3 - <<'PY'
+          import os, urllib.request, pathlib, sys
+          paths=["trasfigurazione","pozioni","erbologia","creature-magiche","storia-della-magia","difesa-arti-oscure","incantesimi"]
+          success=0
+          for i,name in enumerate(paths):
+              url=os.environ.get(f'IMG_{i}','')
+              dest=pathlib.Path('images')/(name+'.png')
+              try:
+                  req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
+                  with urllib.request.urlopen(req,timeout=20) as response:
+                      content=response.read()
+                      mime=response.headers.get('Content-Type','')
+                  if not mime.startswith('image/') or len(content)<1500:
+                      raise ValueError(f'Contenuto non valido: {mime}')
+                  dest.write_bytes(content)
+                  print(f'Scaricata immagine: {name} ({len(content)} bytes)')
+                  success+=1
+              except Exception as e:
+                  print(f'Immagine da recuperare manualmente: {name}: {e}')
+          print(f'{success} fotografie su {len(paths)}')
+          PY
+      - name: Salva le fotografie recuperate
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add images/
+          if ! git diff --cached --quiet; then
+            git commit -m "Aggiunge fotografie originali delle aule"
+            git push
+          fi
