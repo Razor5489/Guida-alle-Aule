@@ -1,4 +1,4 @@
-name: Aggiorna le fotografie delle aule dal documento
+name: Aggiorna la fotografia di Divinazione
 on:
   workflow_dispatch:
   push:
@@ -7,51 +7,36 @@ on:
 permissions:
   contents: write
 jobs:
-  importa:
+  aggiorna:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Scarica tutte e otto le fotografie originali
+      - name: Scarica esclusivamente la nuova fotografia di Divinazione
         env:
-          IMG_0: "https://docs.google.com/docs-images-rt/AIpPl2CWwiI2O_fRShltTtXUt20YMn8uNm9ZMk-ZmCAgEfYsogoFCBD_Uce63RiRBiHSwEPuY1EcprBwijnN8uyGbjyZm6dxMwW3wBh62zo39qdJbMK2aYYL4-Kq37fblISuCKDzMnau6eQd7KhaOfdEJ5985Lf93VGBqBbNzkhPv0gnx8-3=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
-          IMG_1: "https://docs.google.com/docs-images-rt/AIpPl2BwCFo-lW9Z6F-kMg_Y1dQe6LTqAWuUYAat-hqRV7lrTp5ta9zRopUip-YdB889UadtGspqv557e8H1AvM3j0VTKiIsEBf_8dy7DBP0886_wmTJhjbIVMqRa2GdajsiWV266vr-2jxx7QYfhGo3WRoIvErvQbidW05vHtqgesm9HuhT=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
-          IMG_2: "https://docs.google.com/docs-images-rt/AIpPl2DacGoW0pLHD0pZaQZAvHHIZD0sLmZ3oNDEA3BQZL-FXME-JbkFAalAIs9E1_JF87VKp0Q8hyA8HbON5NTkOOBvaSg6LzAFI2tg9niRlMUJUQWbV7n-H9Xacp4Zc7-rf0buJjlEwooBZrDryMc_K1LeBOrXLZZwsAvsoNXMzXePBvUZ=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
-          IMG_3: "https://docs.google.com/docs-images-rt/AIpPl2CG_v4mWyuMYNDlT-lYJ6Qufd7_eiPY1SWU-IHEiwNTEA_xXqehxDS6_pTcl6S_dCSIgcqp6DPLwv_FaYAEr2H96I99OaXwrsDZxzOUUWak0aJzd4Vw6-Sk8uKnA5_MhCUY72cteshM4wqFG_2MvlRNm3OI7ilg4uVOwORB6vPb3RezPUA=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
-          IMG_4: "https://docs.google.com/docs-images-rt/AIpPl2BnIu9_dwqV3gnfzUku4l9FglXt59XI6L1XcBxBZSBfPRPDFyOz3wIgSmbSm7PDCa2syLOrj5vjHUOVD_4IMTiPEs63W6jZpnEgtVrWiIhobZwthtqw_UrzXo1foyPfHs5Dk6RmaCn59p4khPaNf4K-cUMHU-cXJ72NsYKoWxPkmb75=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
-          IMG_5: "https://docs.google.com/docs-images-rt/AIpPl2BmK4T5bU1rbxuqCZGuSbW6YODB0nVamSwWwuxhVQF3HPQSb8GuqRlE02Z0zwCGnWaJBWEw4sN1jZLtOayIdHecYJGUJyL1o3hQOO6vj5cmlMon_YKDTqJthRerPSNdPhAmgyXtr-OSpQVJkDyHIUkD8QySs6N1KVMlw9WYnFsoqh63rxs=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
-          IMG_6: "https://docs.google.com/docs-images-rt/AIpPl2Drv2qSSl8RTflPanABQ3FbX61ZIY0xSCanlr_lYstz0on7FP4I2ieu28uk_Pepz5FweX5yhBtmVuhFY7xUF00xeQ2pL_FvsMMhiHSjjC5jF57J4vy5nrzObe52gEgJ_gdXSswYwtVibugSkYNbqs7Ry6qkp-shHWuX9mCqrnuIWs7FNGA=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
-          IMG_7: "https://docs.google.com/docs-images-rt/AIpPl2BrWkbUnDRElwnKg9TV7dfpU2kIUqt2AKCocbSD6CVodoVKcMC5vhHUmy6tpGwygBJ-InaT1aUkNdB1HdoKHHIhV5z-MXs1ENK_1v3nTg4Az2mzh8Y644aKiQ2Q3bDfh9_53FZVysvzbKBhQ3yJMCws-17FZ5HolWzmda_pc1iAp6K3Dmo=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+          PHOTO_URL: "https://docs.google.com/docs-images-rt/AIpPl2BrWkbUnDRElwnKg9TV7dfpU2kIUqt2AKCocbSD6CVodoVKcMC5vhHUmy6tpGwygBJ-InaT1aUkNdB1HdoKHHIhV5z-MXs1ENK_1v3nTg4Az2mzh8Y644aKiQ2Q3bDfh9_53FZVysvzbKBhQ3yJMCws-17FZ5HolWzmda_pc1iAp6K3Dmo=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
         run: |
-          mkdir -p images
           python3 - <<'PY'
-          import os, urllib.request, pathlib, sys
-          paths=["trasfigurazione","pozioni","erbologia","creature-magiche","storia-della-magia","difesa-arti-oscure","incantesimi","divinazione"]
-          errors=[]
-          for i,name in enumerate(paths):
-              url=os.environ.get(f'IMG_{i}','')
-              dest=pathlib.Path('images')/(name+'.png')
-              try:
-                  req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
-                  with urllib.request.urlopen(req,timeout=45) as response:
-                      content=response.read()
-                      mime=response.headers.get('Content-Type','')
-                  if not mime.startswith('image/') or len(content)<1500:
-                      raise ValueError(f'Contenuto non valido: {mime}, {len(content)} bytes')
-                  dest.write_bytes(content)
-                  print(f'OK: {name} - {len(content)} bytes')
-              except Exception as e:
-                  errors.append(name)
-                  print(f'ERRORE: {name}: {e}',file=sys.stderr)
-          if errors:
-              raise SystemExit('Immagini non caricate: '+', '.join(errors))
-          print('Tutte e otto le immagini sono state scaricate')
+          import os
+          import urllib.request
+          from pathlib import Path
+          url = os.environ['PHOTO_URL']
+          req = urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0'})
+          with urllib.request.urlopen(req, timeout=45) as response:
+              payload = response.read()
+              ctype = response.headers.get('Content-Type','')
+          if not ctype.startswith('image/') or len(payload) < 1500:
+              raise RuntimeError('Il file fotografico non è valido')
+          output = Path('images/divinazione.png')
+          output.parent.mkdir(exist_ok=True)
+          output.write_bytes(payload)
+          print(f'Fotografia Divinazione aggiornata: {len(payload)} byte')
           PY
-      - name: Pubblica le nuove fotografie
+      - name: Pubblica solo la nuova fotografia
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add images/
+          git add images/divinazione.png
           if ! git diff --cached --quiet; then
-            git commit -m "Aggiorna tutte le otto fotografie dal Google Docs"
+            git commit -m "Aggiorna la fotografia dell'aula di Divinazione"
             git push
           fi
