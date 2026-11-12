@@ -1,4 +1,4 @@
-name: Aggiorna la fotografia di Divinazione
+name: Importa foto dell'aula esterna
 on:
   workflow_dispatch:
   push:
@@ -7,36 +7,35 @@ on:
 permissions:
   contents: write
 jobs:
-  aggiorna:
+  importa:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Scarica esclusivamente la nuova fotografia di Divinazione
+      - name: Recupera foto originale dal documento
         env:
-          PHOTO_URL: "https://docs.google.com/docs-images-rt/AIpPl2BrWkbUnDRElwnKg9TV7dfpU2kIUqt2AKCocbSD6CVodoVKcMC5vhHUmy6tpGwygBJ-InaT1aUkNdB1HdoKHHIhV5z-MXs1ENK_1v3nTg4Az2mzh8Y644aKiQ2Q3bDfh9_53FZVysvzbKBhQ3yJMCws-17FZ5HolWzmda_pc1iAp6K3Dmo=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+          PHOTO_URL: "https://docs.google.com/docs-images-rt/AIpPl2CbQmprorhDYAsBH82ifWSQhlnNLbcTEksLSY0AeMYYu_4ROhHOJ7CQFPS88mXpGh52gN1oCMp6YKe32VZtnLokDqgAOy54ZgIwWgDQG1bPmtqzb68aZcXCb2VnGeq-1FOmU17FqVMrzJjnFXJt1Rvs0Azl0-L37LS8VJsf6MNa4HMYBGU=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
         run: |
           python3 - <<'PY'
-          import os
-          import urllib.request
+          import os, urllib.request
           from pathlib import Path
-          url = os.environ['PHOTO_URL']
-          req = urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0'})
-          with urllib.request.urlopen(req, timeout=45) as response:
-              payload = response.read()
-              ctype = response.headers.get('Content-Type','')
-          if not ctype.startswith('image/') or len(payload) < 1500:
-              raise RuntimeError('Il file fotografico non è valido')
-          output = Path('images/divinazione.png')
-          output.parent.mkdir(exist_ok=True)
-          output.write_bytes(payload)
-          print(f'Fotografia Divinazione aggiornata: {len(payload)} byte')
+          u=os.environ["PHOTO_URL"]
+          req=urllib.request.Request(u,headers={"User-Agent":"Mozilla/5.0"})
+          with urllib.request.urlopen(req,timeout=45) as r:
+              raw=r.read()
+              mime=r.headers.get("Content-Type","")
+          if not mime.startswith("image/") or len(raw)<1500:
+              raise RuntimeError("Immagine non valida: "+mime)
+          out=Path("images/creature-magiche-esterno.png")
+          out.parent.mkdir(parents=True,exist_ok=True)
+          out.write_bytes(raw)
+          print("Fotografia esterna recuperata:",len(raw),"byte")
           PY
-      - name: Pubblica solo la nuova fotografia
+      - name: Pubblica fotografia esterna
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add images/divinazione.png
+          git add images/creature-magiche-esterno.png
           if ! git diff --cached --quiet; then
-            git commit -m "Aggiorna la fotografia dell'aula di Divinazione"
+            git commit -m "Aggiunge fotografia originale aula esterna Creature Magiche"
             git push
           fi
