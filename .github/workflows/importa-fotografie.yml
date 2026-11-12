@@ -20,7 +20,7 @@ jobs:
           IMG_4: "https://docs.google.com/docs-images-rt/AIpPl2BnIu9_dwqV3gnfzUku4l9FglXt59XI6L1XcBxBZSBfPRPDFyOz3wIgSmbSm7PDCa2syLOrj5vjHUOVD_4IMTiPEs63W6jZpnEgtVrWiIhobZwthtqw_UrzXo1foyPfHs5Dk6RmaCn59p4khPaNf4K-cUMHU-cXJ72NsYKoWxPkmb75=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
           IMG_5: "https://docs.google.com/docs-images-rt/AIpPl2BmK4T5bU1rbxuqCZGuSbW6YODB0nVamSwWwuxhVQF3HPQSb8GuqRlE02Z0zwCGnWaJBWEw4sN1jZLtOayIdHecYJGUJyL1o3hQOO6vj5cmlMon_YKDTqJthRerPSNdPhAmgyXtr-OSpQVJkDyHIUkD8QySs6N1KVMlw9WYnFsoqh63rxs=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
           IMG_6: "https://docs.google.com/docs-images-rt/AIpPl2Drv2qSSl8RTflPanABQ3FbX61ZIY0xSCanlr_lYstz0on7FP4I2ieu28uk_Pepz5FweX5yhBtmVuhFY7xUF00xeQ2pL_FvsMMhiHSjjC5jF57J4vy5nrzObe52gEgJ_gdXSswYwtVibugSkYNbqs7Ry6qkp-shHWuX9mCqrnuIWs7FNGA=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
-          IMG_7: "https://docs.google.com/docs-images-rt/AIpPl2AEOsqeFecabYZoX2ZhYHxneuPZ2LjLfygDKzK_wS_nEXU6Ns27Z8GXEzBYluxV4UcP6N61IGCNjOiCx3bCJn-YKcKQ925DXsxWf87FmnSZySTUJ6UnW9pdAZ1xo_uNPoBRXc7vEN6NL7OOxe1oPICE9Ac9RzUK2xIluy3430BU86UnOgc=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
+          IMG_7: "https://docs.google.com/docs-images-rt/AIpPl2BrWkbUnDRElwnKg9TV7dfpU2kIUqt2AKCocbSD6CVodoVKcMC5vhHUmy6tpGwygBJ-InaT1aUkNdB1HdoKHHIhV5z-MXs1ENK_1v3nTg4Az2mzh8Y644aKiQ2Q3bDfh9_53FZVysvzbKBhQ3yJMCws-17FZ5HolWzmda_pc1iAp6K3Dmo=s2048?key=_NP-qTnIMHAC4miFOKI7xg"
         run: |
           mkdir -p images
           python3 - <<'PY'
